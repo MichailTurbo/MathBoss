@@ -1,9 +1,5 @@
 import asyncio
 import logging
-from gc import callbacks
-from turtledemo.penrose import start
-from xml.sax import parse
-
 from aiogram.filters import CommandStart
 from aiogram import Bot, Dispatcher, types
 from aiogram.types import ReplyKeyboardRemove
@@ -295,7 +291,6 @@ def random_stiker(stiker):
 
 punkt1 = ['CAACAgIAAxkBAAENFSxnLEWJllFn6GWjQZpSKakkXjjuBQACO2AAAumkYUnpQOyMecsdKjYE',
           'CAACAgIAAxkBAAENFTBnLEWWnkvyyTzbmwcnSGTPpK9QPQACOFwAAiyQYEm4Eyn0CW_8hjYE',
-          'CAACAgIAAxkBAAENFYZnLPiImlW2qCdvaVRPE8lz4RUc-wACbFsAAjyaYUl-YMD5EipofTYE',
           'CAACAgIAAxkBAAENPP9nSLcPF3oH0CdjTGyP5hK8cL92EwACWmMAAkwHSUrnAUqBfkECiDYE']
 punkt2 = ['CAACAgIAAxkBAAENFYhnLPiOM2yswTHAWKKPEE1CZSO_JQACpmMAAkWOYUkkQ0QyiWQJtjYE',
           'CAACAgIAAxkBAAENFTJnLEWcNuYbJpXsZVafEW1SZrsekgACQmIAAvqMYEnL2hH1A6GdeDYE']
@@ -317,9 +312,6 @@ async def send_otvet(mess: types.Message, state: FSMContext):
     elif int(mess.text) == correct_answer:
         update_correct_count(chat_id)  # Обновить количество правильных ответов
         current_count = get_correct_count(chat_id)  # Получить текущее количество
-        # button1 = InlineKeyboardButton(text='Решать ещё', callback_data='button1')
-        # button2 = InlineKeyboardButton(text='Перейти в меню', callback_data='bu2')
-        # keyboard = InlineKeyboardMarkup(inline_keyboard=[[button1],[button2]])
         await bot.send_sticker(chat_id=mess.from_user.id,
                                sticker=random_stiker(punkt1))
         await mess.answer(random_fraze(items))  # , reply_markup=keyboard)
@@ -328,8 +320,7 @@ async def send_otvet(mess: types.Message, state: FSMContext):
             reset(chat_id)
             await bot.send_sticker(chat_id=mess.from_user.id,
                                    sticker='CAACAgIAAxkBAAENJC9nOg2xtFaEWflZn3VHxelVqXU0wQACx1wAAi3g0UkMS28Cja1oYzYE')
-            button4 = InlineKeyboardButton(text='Перейти на следующий уровнь', call
-                                           back_data='bu2')
+            button4 = InlineKeyboardButton(text='Перейти на следующий уровнь', callback_data='bu2')
             keyboard = InlineKeyboardMarkup(inline_keyboard=[[button4]])
             await mess.answer('Молодец! Ты ответил правильно 7 раз подряд!\nПереходи на следующий уровнь',
                               reply_markup=keyboard)
